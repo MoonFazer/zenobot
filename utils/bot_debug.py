@@ -14,7 +14,7 @@ postmsg_str = endpoint.format(BOT_TOKEN=BOT_TOKEN, METHOD_NAME="sendMessage")
 
 
 def send_notif(registry):
-    for i in [k for k in list(registry.keys()) if k != -1]:
+    for i in [x for x in list(registry.keys()) if x != -1]:
         resp = requests.post(postmsg_str, data={"chat_id": i, "text": registry[i]}).json()
 
 
