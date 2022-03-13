@@ -6,7 +6,7 @@ from pymongo import MongoClient
 
 class Mongo(MongoClient):
     """
-    Really, the purpose of this class is just to hide the conn string but it is quite ugly
+    Really, the purpose of this class is just to hide the conn string because it is quite ugly
     """
 
     def __init__(self, db_name="cusum") -> None:
