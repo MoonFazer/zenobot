@@ -7,6 +7,7 @@ to be registered as a bot command in the updater
 """
 
 import os
+from webbrowser import get
 
 from dotenv import load_dotenv
 from telegram.ext.callbackcontext import CallbackContext
@@ -15,6 +16,7 @@ from telegram.ext.filters import Filters
 from telegram.ext.messagehandler import MessageHandler
 from telegram.ext.updater import Updater
 from telegram.update import Update
+from utils.connection import get_connections
 
 
 class CommandRegistry(Updater):
@@ -23,7 +25,7 @@ class CommandRegistry(Updater):
         self.BOT_TOKEN = os.environ.get("BOT_TOKEN")
         super().__init__(self.BOT_TOKEN, use_context=True)
 
-    def register(self, call_slug, fn):
+    def register(self, call_slug, fn, **conns):
         """
         Registers a function with the updater
 
@@ -43,6 +45,9 @@ class CommandRegistry(Updater):
                 "first_name": update.effective_user.first_name,
             }
 
+            for conn_name in conns:
+                kwargs.update({conn_name: get_connections(conn_name, *conns[conn_name])})
+
             ret = fn(**kwargs)
 
             if isinstance(ret, list):
@@ -54,6 +59,11 @@ class CommandRegistry(Updater):
         self.dispatcher.add_handler(CommandHandler(call_slug, new_command))
 
         return None
+
+    def bulk_register(self, commands):
+        """unpacks a dict of connection requests and registers them all"""
+        for entry in commands:
+            self.register(entry, commands[entry]["fn"], **commands[entry]["conns"])
 
     def add_unknown_handlers(self):
         self.dispatcher.add_handler(MessageHandler(Filters.text, unknown))
