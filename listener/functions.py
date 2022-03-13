@@ -1,15 +1,18 @@
 import yaml
+
+from listener.utils import add_delete
 from utils.mcap import get_cmc_stats
 from utils.msg_utils import *
 
 """
-All functions will correspond to commands that can be called in the bot.
+All functions below will correspond to commands that can be called in the bot.
 We shall try to keep these short and general to maintain structure.
 
 
 The available set of kwargs for each function will be:
     "in_msg":           The message sent in by the user,
     "usr_id":           The user's Telegram ID,
+    "usr_name":         The user's Telegram Username
     "first_name":       The user's first name on Telegram,
     "mongo":            A connection to MongoDB
     
@@ -50,3 +53,11 @@ def watchlist(usr_id=None, mongo=None, **kwargs):
 
 def stats(mongo=None, **kwargs):
     return dict_to_msg(get_cmc_stats(mongo))
+
+
+def add_watch(**kwargs):
+    return add_delete(action="add", **kwargs)
+
+
+def delete_watch(**kwargs):
+    return add_delete(action="delete", **kwargs)

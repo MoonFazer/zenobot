@@ -26,6 +26,9 @@ def main():
             "future": {"fn": future, "conns": {}},
             "watchlist": {"fn": watchlist, "conns": mongo_config},
             "stats": {"fn": stats, "conns": mongo_config},
+            # since add is an internal command it needs a different alias for the fn definition
+            "add": {"fn": add_watch, "conns": mongo_config},
+            "delete": {"fn": delete_watch, "conns": mongo_config},
         }
     )
 

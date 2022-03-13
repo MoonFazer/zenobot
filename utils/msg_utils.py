@@ -1,4 +1,12 @@
-""" set of utilities to turn data objects into neatly formatted telegram message packets """
+"""
+Set of utilities to
+
+Turn data objects into neatly formatted telegram message packets
+--or--
+Validate entries from users
+
+"""
+import re
 
 
 def build_watchlist_str(entry):
@@ -17,3 +25,16 @@ def dict_to_msg(dict_):
     for entry in sorted(list(dict_.keys())):
         str_ = str_ + "\n" + entry + " : " + str(dict_[entry])
     return str_
+
+
+def validate_add_delete(message_text):
+
+    """ """
+
+    if re.match(
+        r"^(\/add\s|\/delete\s)[A-Za-z]{1,}\/[A-Za-z]{1,}\s(tick|volume|dollar)\_([0-9]+)(\.[0-9]+)?\_([0-9]+)(\.[0-9]+)?$",
+        message_text,
+    ):
+        return True
+    else:
+        return False
