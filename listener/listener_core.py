@@ -15,6 +15,7 @@ from telegram.ext.filters import Filters
 from telegram.ext.messagehandler import MessageHandler
 from telegram.ext.updater import Updater
 from telegram.update import Update
+
 from utils.connection import get_connections
 
 
@@ -41,6 +42,7 @@ class CommandRegistry(Updater):
             kwargs = {
                 "in_msg": update.message.text,
                 "usr_id": update.effective_user.id,
+                "usr_name": update.effective_user.username,
                 "first_name": update.effective_user.first_name,
             }
 
