@@ -12,13 +12,14 @@ price, it finds the percentage difference between it and the previously recorded
 a change of -0.45% would INCREASE the sum by 0.45) of this value to a Cumulative Sum count. Once the Cumulative
 Sum count adds up to your filter level of 10%, it will notify you.
 
-For brevity: A notification is sent when the cumulative percentage change between adjacent
-100-tick-aggregated BTC/USDT prices exceeds 10%. So what's the point? Prices are not impacted by time. They are
-impacted by stores of wealth exchanging hands (market events). As a result, you'd rather know when market events
-are occurring than just checking the charts every x minutes. The CUSUM filter therefore sends many more notifications
-in periods of high volatility than it does in low ones, so you know when to pay attention. Available aggregations
-are tick (trade number), dollar (dollars exchanged) and volume (coins exchanged) Enter /future to learn more about
-future developments.
+For brevity: A notification is sent when the cumulative percentage change between adjacent 100-tick-aggregated
+BTC/USDT prices exceeds 10%.
+
+So what's the point? Prices are not impacted by time. They are impacted by stores of wealth exchanging hands (market
+events). As a result, you'd rather know when market events are occurring than just checking the charts every x minutes.
+The CUSUM filter therefore sends many more notifications in periods of high volatility than it does in low ones, so
+you know when to pay attention. Available aggregations are tick (trade number), dollar (dollars exchanged) and volume
+(coins exchanged) Enter /future to learn more about future developments.
 
 Updates Feb 2022:
 ----------------
