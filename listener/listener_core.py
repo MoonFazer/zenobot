@@ -7,7 +7,6 @@ to be registered as a bot command in the updater
 """
 
 import os
-from webbrowser import get
 
 from dotenv import load_dotenv
 from telegram.ext.callbackcontext import CallbackContext
