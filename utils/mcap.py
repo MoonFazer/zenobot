@@ -37,7 +37,7 @@ def get_cmc_stats(mongo=None):
     inner = last.pop("quote")["USD"]
     last.pop("_id")
 
-    for i in quote_wanted:
-        last[i] = inner[i]
+    for label in quote_wanted:
+        last[label] = inner[label]
 
     return last

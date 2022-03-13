@@ -41,7 +41,7 @@ def future(**kwargs):
 
 def watchlist(usr_id=None, mongo=None, **kwargs):
 
-    found_profile = [i for i in mongo["cusum"].watchList.find({"TGChatID": usr_id})]
+    found_profile = [x for x in mongo["cusum"].watchList.find({"TGChatID": usr_id})]
     if found_profile == []:
         return "You haven't got a watchlist yet. Set one up automatically by adding a watch via\n/new {ticker} {type}_{agg}_{filter_percentage}"
     else:

@@ -4,10 +4,10 @@
 def build_watchlist_str(entry):
     """takes a watchlist entry and returns a neatly formatted string"""
     strn = ""
-    for i in entry["watchList"]:
-        strn = strn + "\n\n" + i["market"]
-        for j in i["aggs"]:
-            strn = strn + "\n\t" + str(j)
+    for record in entry["watchList"]:
+        strn = strn + "\n\n" + record["market"]
+        for agg in record["aggs"]:
+            strn = strn + "\n\t" + str(agg)
     return strn
 
 
