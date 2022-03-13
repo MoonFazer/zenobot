@@ -1,0 +1,46 @@
+# a collection of long text outputs the bot might have... better not to leave in the code really
+
+start:
+>
+  Hello {first_name}, Welcome to ZenoBot. Please write
+  /help to see the commands available.
+
+help:
+>
+  Available Commands :-
+  /watchlist - get your currently active watchlist
+  /new {pair} {agg} - add a new cusum aggregation to your watchlist
+  /delete {pair} {agg} - delete a cusum aggregation from your watchlist
+  /help - display this message
+  /description - get a more in-depth description of ZenoBot's current abilities
+  /future - get an overview of future developments
+
+description_0:
+>
+  Currently, ZenoBot is a service that watches cryptos and notifies users when CUSUM filter events occur.
+  This is best articulated by an example. Let's say you have 'BTC/USDT tick_100_10' in your watchlist. ZenoBot
+  will watch the BTC/USDT transactions in real-time and record a price every 100 ticks. When it records a new
+  price, it finds the percentage difference between it and the previously recorded price, adding the modulus (so 
+  a change of -0.45% would INCREASE the sum by 0.45) of this value to a Cumulative Sum count. Once the Cumulative
+  Sum count adds up to your filter level of 10%, it will notify you.
+
+description_1:
+>
+  For brevity: A notification is sent when the cumulative percentage change between adjacent
+  100-tick-aggregated BTC/USDT prices exceeds 10%. So what's the point? Prices are not impacted by time. They are
+  impacted by stores of wealth exchanging hands (market events). As a result, you'd rather know when market events
+  are occurring than just checking the charts every x minutes. The CUSUM filter therefore sends many more notifications
+  in periods of high volatility than it does in low ones, so you know when to pay attention. Available aggregations
+  are tick (trade number), dollar (dollars exchanged) and volume (coins exchanged) Enter /future to learn more about
+  future developments.
+
+future:
+>
+  More Sources - Currently, we're only watching FTX, but have plans to incorporate Binance, Kraken and Coinbase
+  AI - We're building a system to predict price movements based on event-aggregated prices. These predictions are
+  communicated when the CUSUM filter hits.
+  Price Levels - A store of important Price levels (Fibb.) so at each event-trigger we have some context for where
+  a price is headed.
+  Indicator Check - checks a range of financial indicators and automatically relays results
+  Trade calculator - uses a recent volatility measurement to suggest a potential trade setup including TP/SL/TL
+  
