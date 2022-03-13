@@ -9,6 +9,7 @@ python = "^3.9"
 PyYAML = "^6.0"
 python-telegram-bot = "^13.11"
 python-dotenv = "^0.19.2"
+pymongo = {extras = ["srv"], version = "^4.0.2"}
 
 [tool.poetry.dev-dependencies]
 
