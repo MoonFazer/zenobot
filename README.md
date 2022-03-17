@@ -5,7 +5,7 @@ Last Edited: 17 Mar 2022
 
 Description:
 ------------
-Currently, Zenobot is a service that watches cryptos and notifies users when CUSUM filter events occur. This is best articulated by an example. Let's say you have 'BTC/USDT tick_100_10' in your watchlist. Zenobot will watch the BTC/USDT transactions in real-time and record a price every 100 ticks. When it records a new price, it finds the percentage difference between it and the previously recorded price, adding the modulus (so a change of -0.45% would INCREASE the sum by 0.45) of this value to a Cumulative Sum count. Once the Cumulative Sum count adds up to your filter level of 10%, it will notify you.
+Currently, ZenoBot is a service at t.me/zeno_crypto_bot that watches cryptos and notifies users when CUSUM filter events occur. This is best articulated by an example. Let's say you have 'BTC/USDT tick_100_10' in your watchlist. Zenobot will watch the BTC/USDT transactions in real-time and record a price every 100 ticks. When it records a new price, it finds the percentage difference between it and the previously recorded price, adding the modulus (so a change of -0.45% would INCREASE the sum by 0.45) of this value to a Cumulative Sum count. Once the Cumulative Sum count adds up to your filter level of 10%, it will notify you.
 
 For brevity: A notification is sent when the cumulative percentage change between adjacent 100-tick-aggregated
 BTC/USDT prices exceeds 10%.
