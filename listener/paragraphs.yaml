@@ -12,6 +12,7 @@ help:
   /new {pair} {agg} - add a new cusum aggregation to your watchlist
   /delete {pair} {agg} - delete a cusum aggregation from your watchlist
   /help - display this message
+  /stats - see an overview of recent market cap statistics
   /description - get a more in-depth description of ZenoBot's current abilities
   /future - get an overview of future developments
 
