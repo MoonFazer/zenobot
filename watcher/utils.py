@@ -4,7 +4,7 @@ import pandas as pd
 from common.connection import get_connections
 
 
-def get_active_range(market, price):
+def get_active_range(market, last_agg_price):
 
     """finds the active range of a crypto with pre-established support-resistance levels"""
 
@@ -14,8 +14,8 @@ def get_active_range(market, price):
     market = market.split(f"/")[0]
     price_list = [x for x in ranges_db.find({"name": market})][0]["levels"]
     price_list = [float(x) for x in price_list]
-    low_bound = max([x for x in price_list if x < price])
-    high_bound = min([x for x in price_list if x >= price])
+    low_bound = max([x for x in price_list if x < last_agg_price])
+    high_bound = min([x for x in price_list if x >= last_agg_price])
     return (low_bound, high_bound)
 
 
@@ -64,3 +64,16 @@ def to_user_catalog(records):
             last_agg_price=("last_agg_price", lambda x: None),
         )
     )
+
+
+if __name__ == "__main__":
+    active = pd.DataFrame(
+        [
+            {"market": "BTC/USDT", "last_agg_price": 41500.00},
+            {"market": "ETH/USDT", "last_agg_price": 2150.00},
+        ]
+    )
+    active["get_range"] = active[["market", "last_agg_price"]].to_dict("records")
+    active["range"] = active["get_range"].map(lambda x: get_active_range(**x))
+
+    print(active)

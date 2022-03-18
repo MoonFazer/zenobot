@@ -329,7 +329,7 @@ class CUSUM(ftx):
         registry = reg_keys(active["ids"].to_list())
 
         active["get_range"] = active[["market", "last_agg_price"]].to_dict("records")
-        active["range"] = active["get_range"].map(get_active_range)
+        active["range"] = active["get_range"].map(lambda x: get_active_range(**x))
 
         active["msg"] = (
             active["market"]
