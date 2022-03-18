@@ -7,7 +7,9 @@ to be registered as a bot command in the updater
 """
 
 import os
+import re
 
+from common.connection import get_connections
 from dotenv import load_dotenv
 from telegram.ext.callbackcontext import CallbackContext
 from telegram.ext.commandhandler import CommandHandler
@@ -15,8 +17,6 @@ from telegram.ext.filters import Filters
 from telegram.ext.messagehandler import MessageHandler
 from telegram.ext.updater import Updater
 from telegram.update import Update
-
-from utils.connection import get_connections
 
 
 class CommandRegistry(Updater):
@@ -38,6 +38,7 @@ class CommandRegistry(Updater):
         """
 
         def new_command(update: Update, context: CallbackContext):
+            """a command that sends things to users"""
 
             kwargs = {
                 "in_msg": update.message.text,
@@ -51,11 +52,14 @@ class CommandRegistry(Updater):
 
             ret = fn(**kwargs)
 
-            if isinstance(ret, list):
-                for part in ret:
-                    update.message.reply_text(part)
+            if re.match(r"^imgs/chart_[0-9]{14}\.png", ret):
+                update.message.reply_photo(open(ret, "rb"))
             else:
-                update.message.reply_text(ret)
+                if isinstance(ret, list):
+                    for part in ret:
+                        update.message.reply_text(part)
+                else:
+                    update.message.reply_text(ret)
 
         self.dispatcher.add_handler(CommandHandler(call_slug, new_command))
 

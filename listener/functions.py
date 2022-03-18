@@ -1,8 +1,8 @@
 import yaml
+from common.msg_utils import *
+from mcap.mcap import get_cmc_stats, make_graph
 
 from listener.utils import add_delete
-from utils.mcap import get_cmc_stats
-from utils.msg_utils import *
 
 """
 All functions below will correspond to commands that can be called in the bot.
@@ -52,7 +52,12 @@ def watchlist(usr_id=None, mongo=None, **kwargs):
 
 
 def stats(mongo=None, **kwargs):
-    return dict_to_msg(get_cmc_stats(mongo))
+    """
+    NOTE: this makes a graph so returns the filename as a reference
+    - we need a different wrapper here
+    """
+    stats = get_cmc_stats(mongo)
+    return make_graph(stats)
 
 
 def add_watch(**kwargs):
