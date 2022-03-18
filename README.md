@@ -25,7 +25,9 @@ Updates Mar 2022:
 Zenobot now references a set of known support and resistance levels from a separate MongoDB Collection. This means every
 notification now comes with an "Active range" giving users some more context for price direction.
 
-Zenobot bot now includes a /stats command for a quick update on Crypto Market Cap statistics.
+Zenobot now includes a /stats command for a quick update on Crypto Market Cap statistics.
+
+Market Cap statistics are now sent as pie charts.
 
 Updates Feb 2022:
 ----------------
