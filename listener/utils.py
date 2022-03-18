@@ -1,4 +1,4 @@
-from utils.msg_utils import validate_add_delete
+from common.msg_utils import validate_add_delete
 
 
 def edit_watchlist(action, document, ticker, agg):
