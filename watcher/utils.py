@@ -1,10 +1,16 @@
 import itertools
+from datetime import datetime
+from pprint import pprint
 
 import pandas as pd
+import polars as pl
+import pyarrow
 from common.connection import get_connections
 
 
 def get_active_range(market, last_agg_price):
+
+    """left as pandas due to insignificant speed increase"""
 
     """finds the active range of a crypto with pre-established support-resistance levels"""
 
@@ -25,7 +31,8 @@ def reg_keys(entries):
     return {key: "" for key in big_set}
 
 
-def to_user_catalog(records):
+def to_user_catalog(records, use_polars=False):
+    """takes a dict and returns polars/pandas df"""
 
     rows = []
     for record in records:
@@ -40,13 +47,10 @@ def to_user_catalog(records):
                         "agg_type": agg_type,
                         "agg_unit": float(agg_unit),
                         "agg_perc": float(agg_perc),
-                        "count": 0.0,
-                        "cusum_count": 0.0,
-                        "last_agg_price": None,
                     }
                 )
-    return (
-        pd.DataFrame(rows)
+    new = (
+        pl.DataFrame(rows)
         .groupby(
             [
                 "market",
@@ -54,26 +58,14 @@ def to_user_catalog(records):
                 "agg_unit",
                 "agg_perc",
             ],
-            as_index=False,
         )
-        .agg(
-            users=("TGUsername", lambda x: list(set(x))),
-            ids=("TGChatID", lambda x: list(set(x))),
-            count=("count", lambda x: 0.0),
-            cusum_count=("cusum_count", lambda x: 0.0),
-            last_agg_price=("last_agg_price", lambda x: None),
-        )
+        .agg([pl.col("TGUsername").list(), pl.col("TGChatID").list()])
     )
+    new.with_column(pl.lit(0.0).alias("count"))
+    new.with_column(pl.lit(0.0).alias("cusum_count"))
+    new.with_column(pl.lit(0.0).alias("last_agg_price"))
 
-
-if __name__ == "__main__":
-    active = pd.DataFrame(
-        [
-            {"market": "BTC/USDT", "last_agg_price": 41500.00},
-            {"market": "ETH/USDT", "last_agg_price": 2150.00},
-        ]
-    )
-    active["get_range"] = active[["market", "last_agg_price"]].to_dict("records")
-    active["range"] = active["get_range"].map(lambda x: get_active_range(**x))
-
-    print(active)
+    if use_polars:
+        return new
+    else:
+        return new.to_pandas()
