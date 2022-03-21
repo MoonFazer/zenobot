@@ -1,6 +1,4 @@
 import itertools
-from datetime import datetime
-from pprint import pprint
 
 import pandas as pd
 import polars as pl
