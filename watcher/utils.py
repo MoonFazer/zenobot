@@ -1,8 +1,6 @@
 import itertools
 
 import pandas as pd
-import polars as pl
-import pyarrow
 from common.connection import get_connections
 
 
@@ -45,10 +43,13 @@ def to_user_catalog(records, use_polars=False):
                         "agg_type": agg_type,
                         "agg_unit": float(agg_unit),
                         "agg_perc": float(agg_perc),
+                        "count": 0.0,
+                        "cusum_count": 0.0,
+                        "last_agg_price": None,
                     }
                 )
-    new = (
-        pl.DataFrame(rows)
+    return (
+        pd.DataFrame(rows)
         .groupby(
             [
                 "market",
@@ -56,14 +57,13 @@ def to_user_catalog(records, use_polars=False):
                 "agg_unit",
                 "agg_perc",
             ],
+            as_index=False,
         )
-        .agg([pl.col("TGUsername").list(), pl.col("TGChatID").list()])
+        .agg(
+            users=("TGUsername", lambda x: list(set(x))),
+            ids=("TGChatID", lambda x: list(set(x))),
+            count=("count", lambda x: 0.0),
+            cusum_count=("cusum_count", lambda x: 0.0),
+            last_agg_price=("last_agg_price", lambda x: None),
+        )
     )
-    new.with_column(pl.lit(0.0).alias("count"))
-    new.with_column(pl.lit(0.0).alias("cusum_count"))
-    new.with_column(pl.lit(0.0).alias("last_agg_price"))
-
-    if use_polars:
-        return new
-    else:
-        return new.to_pandas()
