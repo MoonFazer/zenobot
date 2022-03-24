@@ -130,9 +130,9 @@ class CUSUM(ftx):
                     self.counter["last_agg_price"],
                 )
 
-        self.counter["last_agg_price"] = self.counter[["market", "last_agg_price"]].apply(
-            lambda x: self._fill_price(*x)
-        )
+        self.counter["tmp"] = self.counter[["market", "last_agg_price"]].to_dict("records")
+        self.counter["last_agg_price"] = self.counter["tmp"].map(lambda x: self._fill_price(**x))
+        del self.counter["tmp"]
 
     def _pull_txs(self, market, now, extra=0):
         """pulls transaction records from ftx and returns dataframe with added metrics"""
@@ -394,16 +394,16 @@ class CUSUM(ftx):
             ],
         )
 
-    def _fill_price(self, price, market):
+    def _fill_price(self, last_agg_price, market):
         """
         Grabs the the last cached price and stores it as the last_agg_price
         The last agg price can't be zero or the perc diff will always be 100!
         """
 
-        if price == 0.0:
+        if last_agg_price == 0.0:
             return self.cache[market]["last_price"]
         else:
-            return price
+            return last_agg_price
 
     def _main_loop(self):
         """
